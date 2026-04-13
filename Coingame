@@ -1,0 +1,21 @@
+#coin game which is tested for number of testcases
+t=int(input("Enter the nuber of test cases:"))
+if 1<=t<=1000:
+	for i in range(t):
+		A,B,C,D=map(int,input("Enter the coins for each:").split())
+		if 0<=A<=100000 and 0<=B<=100000 and 0<=C<=100000 and 0<=D<=1000000:
+			if B>A:
+				A=A+C
+			else:
+				B=B+C
+			if B>A:
+	       			A=A+D
+			else:
+				B=B+D
+			if B>A:
+				print("S")
+			else:
+				print("N")
+		else:
+			print("constriants required")
+
