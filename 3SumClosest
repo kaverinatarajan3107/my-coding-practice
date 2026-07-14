@@ -1,0 +1,40 @@
+#Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+class Solution:
+    def threeSumClosest(self, nums: list[int], target: int) -> int:
+        nums.sort()
+        n = len(nums)
+        closest_sum = nums[0] + nums[1] + nums[2]
+        
+        for i in range(n - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+                
+            min_sum = nums[i] + nums[i + 1] + nums[i + 2]
+            if min_sum >= target:
+                if min_sum - target < abs(closest_sum - target):
+                    closest_sum = min_sum
+                break
+                
+            max_sum = nums[i] + nums[-1] + nums[-2]
+            if max_sum < target:
+                if target - max_sum < abs(closest_sum - target):
+                    closest_sum = max_sum
+                continue
+                
+            left, right = i + 1, n - 1
+            while left < right:
+                current_sum = nums[i] + nums[left] + nums[right]
+                
+                if current_sum == target:
+                    return current_sum
+                
+                if abs(current_sum - target) < abs(closest_sum - target):
+                    closest_sum = current_sum
+                    
+                if current_sum < target:
+                    left += 1
+                else:
+                    right -= 1
+                    
+        return closest_sum
+    
