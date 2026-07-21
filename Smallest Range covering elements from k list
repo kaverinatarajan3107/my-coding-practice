@@ -1,0 +1,29 @@
+#You have k lists of sorted integers in non-decreasing order. Find the smallest range that includes at least one number from each of the k lists.
+class Solution:
+    def smallestRange(self, nums: List[List[int]]) -> List[int]:
+        min_heap = []
+        current_max = float('-inf')
+        
+        for r in range(len(nums)):
+            val = nums[r][0]
+            heapq.heappush(min_heap, (val, r, 0))
+            current_max = max(current_max, val)
+            
+        ans_start, ans_end = float('-inf'), float('inf')
+        
+        while min_heap:
+            current_min, r, c = heapq.heappop(min_heap)
+            
+            if current_max - current_min < ans_end - ans_start:
+                ans_start, ans_end = current_min, current_max
+                
+            if c + 1 == len(nums[r]):
+                break
+                
+            next_val = nums[r][c + 1]
+            heapq.heappush(min_heap, (next_val, r, c + 1))
+            current_max = max(current_max, next_val)
+            
+        return [ans_start, ans_end]
+
+        
