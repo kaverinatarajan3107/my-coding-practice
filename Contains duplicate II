@@ -1,0 +1,12 @@
+#Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that 
+#nums[i] == nums[j] and abs(i - j) <= k.
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        last = {}
+
+        for i in range(len(nums)):
+            if nums[i] in last and i - last[nums[i]] <= k:
+                return True
+            last[nums[i]] = i
+
+        return False
