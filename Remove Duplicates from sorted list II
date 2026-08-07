@@ -1,0 +1,23 @@
+#Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. 
+#Return the linked list sorted as well.
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dum=ListNode(0)
+        dum.next=head
+        prev=dum
+        current = head
+        while(current and current.next):
+            if(current.val==current.next.val):
+                dup=current.val
+                while(current and current.val==dup):
+                    current=current.next
+                prev.next=current
+            else:
+                prev=current
+                current=current.next
+        return dum.next
