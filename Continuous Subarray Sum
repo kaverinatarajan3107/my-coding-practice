@@ -1,0 +1,18 @@
+''' Given an integer array nums and an integer k, return true if nums has a good subarray or false otherwise.
+A good subarray is a subarray where:
+its length is at least two, and
+the sum of the elements of the subarray is a multiple of k. '''
+
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        rem={0:-1}
+        tot=0
+        for i in range(len(nums)):
+            tot+=nums[i]
+            r=tot%k
+            if r in rem:
+                if i-rem[r] >=2:
+                    return True
+            else:
+                rem[r]=i
+        return False
