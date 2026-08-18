@@ -1,0 +1,84 @@
+# Design your implementation of the circular double-ended queue (deque).
+
+class MyCircularDeque:
+
+    def __init__(self, k: int):
+        self.capacity=k
+        self.front=-1
+        self.rear=-1
+        self.queue=[None]*k
+    def insertFront(self, value: int) -> bool:
+        if self.isFull():
+            return False
+        elif self.isEmpty():
+            self.front=0
+            self.rear=0
+        else:
+            self.front=(self.front-1)%self.capacity
+            
+        self.queue[self.front]=value
+        return True
+    def insertLast(self, value: int) -> bool:
+        if self.isFull():
+            return False
+        elif self.isEmpty():
+            self.front=0
+            self.rear=0
+        else:
+            self.rear=(self.rear+1)%self.capacity
+        self.queue[self.rear]=value
+        return True
+
+    def deleteFront(self) -> bool:
+        if self.isEmpty():
+            return False
+        elif (self.front==self.rear):
+            self.front=-1
+            self.rear=-1 
+        else:
+            self.front=(self.front+1)%self.capacity
+        return True
+    def deleteLast(self) -> bool:
+        if self.isEmpty():
+            return False
+        elif (self.front==self.rear):
+            self.front=-1
+            self.rear=-1 
+        else:
+            self.rear=(self.rear-1)%self.capacity
+        return True
+
+        
+
+    def getFront(self) -> int:
+        return -1 if self.isEmpty() else self.queue[self.front]
+        
+
+    def getRear(self) -> int:
+        return -1 if self.isEmpty() else self.queue[self.rear]
+        
+
+    def isEmpty(self) -> bool:
+        if(self.front==-1):
+            return True
+        else:
+            return False
+        
+
+    def isFull(self) -> bool:
+        if ((self.rear+1)%self.capacity)==self.front:
+            return True
+        else:
+            return False        
+
+
+# Your MyCircularDeque object will be instantiated and called as such:
+# obj = MyCircularDeque(k)
+# param_1 = obj.insertFront(value)
+# param_2 = obj.insertLast(value)
+# param_3 = obj.deleteFront()
+# param_4 = obj.deleteLast()
+# param_5 = obj.getFront()
+# param_6 = obj.getRear()
+# param_7 = obj.isEmpty()
+# param_8 = obj.isFull()
