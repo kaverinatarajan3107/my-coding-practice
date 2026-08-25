@@ -1,0 +1,28 @@
+# Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.
+class Solution:
+    def splitArray(self, nums: List[int], k: int) -> int:
+        low = max(nums)
+        high = sum(nums)
+        
+        def canSplit(max_sum: int) -> bool:
+            subarrays = 1
+            current_sum = 0
+            
+            for num in nums:
+                if current_sum + num > max_sum:
+                    subarrays += 1
+                    current_sum = num
+                else:
+                    current_sum += num
+                    
+            return subarrays <= k
+
+        while low < high:
+            mid = (low + high) // 2
+            
+            if canSplit(mid):
+                high = mid
+            else:
+                low = mid + 1
+                
+        return low
