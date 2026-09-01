@@ -1,0 +1,37 @@
+# Convert a non-negative integer num to its English words representation.
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        if num == 0:
+            return "Zero"
+            
+        below_20 = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", 
+                    "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+        tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+        thousands = ["", "Thousand", "Million", "Billion"]
+        
+        def helper(n):
+            if n == 0:
+                return []
+            elif n < 20:
+                return [below_20[n]]
+            elif n < 100:
+                return [tens[n // 10]] + helper(n % 10)
+            else:
+                return [below_20[n // 100], "Hundred"] + helper(n % 100)
+                
+        def process(n, i):
+            if n == 0:
+                return []
+            
+            current_chunk = n % 1000
+            rest_of_chunks = process(n // 1000, i + 1)
+            
+            if current_chunk != 0:
+                part = helper(current_chunk)
+                if thousands[i]:
+                    part.append(thousands[i])
+                return rest_of_chunks + part
+                
+            return rest_of_chunks
+
+        return " ".join(process(num, 0))
