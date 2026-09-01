@@ -1,0 +1,28 @@
+''' Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+'.' Matches any single character.​​​​
+'*' Matches zero or more of the preceding element.
+Return a boolean indicating whether the matching covers the entire input string (not partial). '''
+
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        m, n = len(s), len(p)
+        
+        def solve(i, j):
+            if (i, j) in memo:
+                return memo[(i, j)]
+                
+            if j == n:
+                return i == m
+                
+            first_match = i < m and (p[j] == s[i] or p[j] == '.')
+            
+            if j + 1 < n and p[j + 1] == '*':
+                res = solve(i, j + 2) or (first_match and solve(i + 1, j))
+            else:
+                res = first_match and solve(i + 1, j + 1)
+                
+            memo[(i, j)] = res
+            return res
+            
+        return solve(0, 0)
