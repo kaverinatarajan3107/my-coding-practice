@@ -1,0 +1,24 @@
+# Given a string s representing a valid expression, implement a basic calculator to evaluate it, and return the result of the evaluation.
+class Solution:
+    def calculate(self, s: str) -> int:
+        def solve(i):
+            res, num, sign = 0, 0, 1
+            while i < len(s):
+                char = s[i]
+                if char.isdigit():
+                    num = num * 10 + int(char)
+                elif char in '+-':
+                    res += sign * num
+                    num = 0
+                    sign = 1 if char == '+' else -1
+                elif char == '(':
+                    sub_res, next_i = solve(i + 1)
+                    res += sign * sub_res
+                    i = next_i
+                elif char == ')':
+                    res += sign * num
+                    return res, i
+                i += 1
+            return res + sign * num, i
+
+        return solve(0)[0]
