@@ -1,0 +1,37 @@
+''' Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence). '''
+
+The matching should cover the entire input string (not partial).
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        new_p = []
+        for char in p:
+            if not new_p or char != '*' or new_p[-1] != '*':
+                new_p.append(char)
+        p = "".join(new_p)
+        
+        m, n = len(s), len(p)
+        memo = [[None] * (n + 1) for _ in range(m + 1)]
+        
+        def solve(i, j):
+            if memo[i][j] is not None:
+                return memo[i][j]
+                
+            if j == n:
+                return i == m
+                
+            if i == m:
+                return p[j] == '*' and solve(i, j + 1)
+                
+            if p[j] == s[i] or p[j] == '?':
+                res = solve(i + 1, j + 1)
+            elif p[j] == '*':
+                res = solve(i + 1, j) or solve(i, j + 1)
+            else:
+                res = False
+                
+            memo[i][j] = res
+            return res
+            
+        return solve(0, 0)
